@@ -11,12 +11,10 @@ processes_per_node = 4
 
 # The input is split into partitions (one mini-batch each) that always keep a forecast series
 # (GranularityAttributeKey) whole. Each partition's output is appended to parallel_run_step.txt
-# in one storage append (hard limit 4 MiB, max 50,000 appends), so these bounds keep every
-# append small and the partition count far below the append limit.
-min_partition_count = 4 * nodes_count * processes_per_node
+# in one storage append (hard limit 4 MiB), so a partition holds at most max_series_per_partition
+# series and is further capped from HORIZON to stay below max_partition_output_bytes.
 max_series_per_partition = 100
 max_partition_output_bytes = 1024 * 1024
-max_partition_count = 10000
 
 # Per mini-batch (partition) timeout in seconds before it is retried / failed.
 mini_batch_timeout_seconds = 3600

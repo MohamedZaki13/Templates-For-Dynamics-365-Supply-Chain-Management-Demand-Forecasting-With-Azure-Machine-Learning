@@ -104,10 +104,8 @@ def build_partition_step(input_data, code_asset=None):
             "python partition.py"
             " --input_data ${{inputs.input_data}}"
             " --output_data ${{outputs.partitioned_data}}"
-            f" --min_partitions {parameters.min_partition_count}"
             f" --max_series_per_partition {parameters.max_series_per_partition}"
             f" --max_partition_output_bytes {parameters.max_partition_output_bytes}"
-            f" --max_partitions {parameters.max_partition_count}"
         ),
         environment=r_environment(),
     )

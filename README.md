@@ -25,7 +25,7 @@ Supply Chain Management's demand forecasting connector calls an Azure Machine Le
 1. **Partition input by forecast series** (`partition.py`) splits the input CSV into buckets. Each bucket holds complete forecast series (`GranularityAttributeKey`), so a series is never split across workers.
 2. **Generate demand forecast** (`entry.py` → `forecast.r`) runs one mini-batch per bucket in parallel across `nodes_count` × `processes_per_node` workers and appends the results to `parallel_run_step.txt`, which Supply Chain Management reads.
 
-Each bucket's output is appended to the result file in one storage append, which is limited to 4 MiB, and the file accepts at most 50,000 appends. The bucket bounds in `parameters.py` (`max_series_per_partition`, `max_partition_output_bytes`, `max_partition_count`) keep large forecasts within those limits. Set `processes_per_node` to the core count of your compute cluster VM size.
+Each bucket's output is appended to the result file in one storage append, which is limited to 4 MiB. The bucket bounds in `parameters.py` (`max_series_per_partition`, `max_partition_output_bytes`) keep large forecasts within that limit. Set `processes_per_node` to the core count of your compute cluster VM size.
 
 ## Contributing
 
